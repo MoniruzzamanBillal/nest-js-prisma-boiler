@@ -8,6 +8,25 @@ import { GlobalExceptionFilter } from './common/global-exception.filter';
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
 
+  app.enableCors({
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+    allowedHeaders: [
+      'Content-Type',
+      'Authorization',
+      'X-Requested-With',
+      'Accept',
+      'Origin',
+      'Access-Control-Allow-Headers',
+      'Access-Control-Request-Method',
+      'Access-Control-Request-Headers',
+    ],
+    exposedHeaders: ['Authorization'],
+    credentials: true, // If you're using cookies/auth headers
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  });
+
   app.setGlobalPrefix('api');
 
   app.useGlobalPipes(

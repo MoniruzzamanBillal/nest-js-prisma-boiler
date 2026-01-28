@@ -6,6 +6,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { ProjectModule } from './modules/project/project.module';
 import { UserModule } from './modules/user/user.module';
 import { ProductModule } from './modules/product/product.module';
+import { AiIntegrationModule } from './modules/ai-integration/ai-integration.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { ProductModule } from './modules/product/product.module';
     AuthModule,
     ProjectModule,
     ProductModule,
+    AiIntegrationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

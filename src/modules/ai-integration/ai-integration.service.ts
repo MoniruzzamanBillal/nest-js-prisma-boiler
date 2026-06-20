@@ -27,7 +27,7 @@ export class AiIntegrationService {
       return response.choices[0].message?.content;
     } catch (error) {
       console.log(error);
-      throw new Error(error);
+      throw new Error(String(error));
     }
   }
 

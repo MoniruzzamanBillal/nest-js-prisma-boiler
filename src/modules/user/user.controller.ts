@@ -1,4 +1,4 @@
-import { Body, Controller, Get, HttpStatus, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create.user.dto';
 import { UserService } from './user.service';
 
@@ -11,12 +11,7 @@ export class UserController {
   async createNewUser(@Body() payload: CreateUserDto) {
     const result = await this.userService.createUser(payload);
 
-    return {
-      success: true,
-      status: HttpStatus.CREATED,
-      message: 'user created successfully!!!',
-      data: result,
-    };
+    return result;
   }
 
   // ! for getting all users
@@ -24,12 +19,14 @@ export class UserController {
   async getAllUser() {
     const result = await this.userService.getAllUser();
 
-    return {
-      success: true,
-      status: HttpStatus.OK,
-      message: 'all users retrived successfully!!!',
-      data: result,
-    };
+    return result;
+
+    // return {
+    //   success: true,
+    //   status: HttpStatus.OK,
+    //   message: 'all users retrived successfully!!!',
+    //   data: result,
+    // };
   }
 
   // ! for getting single user data
@@ -37,12 +34,7 @@ export class UserController {
   async getSingleUser(@Param('id') id: string) {
     const result = await this.userService.getSingleData(id);
 
-    return {
-      success: true,
-      status: HttpStatus.OK,
-      message: 'user retrived successfully!!!',
-      data: result,
-    };
+    return result;
   }
 
   //

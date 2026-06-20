@@ -7,7 +7,7 @@ import helmet from 'helmet';
 import { join } from 'path';
 import { AppModule } from './app.module';
 import { AllExceptionsFilter } from './common/filters/http-exception.filter';
-import { GlobalExceptionFilter } from './common/global-exception.filter';
+import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 import { TransformInterceptor } from './common/interceptors/transform.interceptor';
 
 async function bootstrap() {
@@ -50,9 +50,13 @@ async function bootstrap() {
     }),
   );
 
-  app.useGlobalFilters(new AllExceptionsFilter());
-  app.useGlobalInterceptors(new TransformInterceptor());
-  app.useGlobalFilters(new GlobalExceptionFilter());
+  const allExceptionsFilter = app.get(AllExceptionsFilter);
+  const loggingInterceptor = app.get(LoggingInterceptor);
+  const transformInterceptor = app.get(TransformInterceptor);
+
+  app.useGlobalFilters(allExceptionsFilter);
+  app.useGlobalInterceptors(transformInterceptor);
+  app.useGlobalInterceptors(loggingInterceptor);
 
   app.useStaticAssets(join(process.cwd(), 'uploads'), {
     prefix: '/uploads',

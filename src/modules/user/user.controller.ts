@@ -11,7 +11,10 @@ export class UserController {
   async createNewUser(@Body() payload: CreateUserDto) {
     const result = await this.userService.createUser(payload);
 
-    return result;
+    return {
+      result,
+      message: 'User Registered successfully!!!',
+    };
   }
 
   // ! for getting all users
@@ -19,7 +22,12 @@ export class UserController {
   async getAllUser() {
     const result = await this.userService.getAllUser();
 
-    return result;
+    // return result;
+
+    return {
+      result,
+      message: 'All Users retrived successfully!!!',
+    };
 
     // return {
     //   success: true,

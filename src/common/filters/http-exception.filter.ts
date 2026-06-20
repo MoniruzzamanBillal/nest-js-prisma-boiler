@@ -4,14 +4,20 @@ import {
   ExceptionFilter,
   HttpException,
   HttpStatus,
-  Logger,
+  Inject,
+  Injectable,
 } from '@nestjs/common';
-import { Prisma } from 'src/generated/prisma/client';
 import { Request, Response } from 'express';
+import { WINSTON_MODULE_PROVIDER } from 'nest-winston';
+import { Prisma } from 'src/generated/prisma/client';
+import { Logger } from 'winston';
 
+@Injectable()
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
-  private readonly logger = new Logger(AllExceptionsFilter.name);
+  constructor(
+    @Inject(WINSTON_MODULE_PROVIDER) private readonly logger: Logger,
+  ) {}
 
   catch(exception: unknown, host: ArgumentsHost) {
     const ctx = host.switchToHttp();
@@ -70,9 +76,15 @@ export class AllExceptionsFilter implements ExceptionFilter {
       errorName = exception.name;
     }
 
-    this.logger.error(
-      `[${request.method}] ${request.url} - Error: ${JSON.stringify(exception)}`,
-    );
+    this.logger.error('Request failed', {
+      method: request.method,
+      url: request.url,
+      statusCode: status,
+      error: errorName,
+      message: Array.isArray(message) ? message.join(', ') : message,
+      stack: exception instanceof Error ? exception.stack : undefined,
+      timestamp: new Date().toISOString(),
+    });
 
     response.status(status).json({
       success: false,

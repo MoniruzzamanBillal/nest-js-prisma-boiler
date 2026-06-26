@@ -8,9 +8,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { UserRole } from 'src/generated/prisma/enums';
-import { Roles } from '../auth/decorators/roles.decorator';
-import { JwtAuthGuard } from '../auth/jwt-auth.guard';
-import { RolesGuard } from '../auth/roles.guard';
+
+import { GetUser } from 'src/common/decorators/get-user.decorator';
+import { Roles } from 'src/common/decorators/roles.decorator';
+import { JwtAuthGuard, UserPayload } from 'src/common/guards/jwt-auth.guard';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 import { createProjectDto } from './dto/createProject.dto';
 import { ProjectService } from './project.service';
 
@@ -35,7 +37,8 @@ export class ProjectController {
 
   //   ! for getting all projects
   @Get('')
-  async getAllProject() {
+  async getAllProject(@GetUser() user: UserPayload) {
+    console.log('user data = ', user);
     const result = await this.projectService.getAllProject();
 
     return {

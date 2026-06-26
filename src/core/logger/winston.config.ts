@@ -17,11 +17,15 @@ export const loggerConfig: WinstonModuleOptions = {
       level: process.env.LOG_LEVEL || 'info',
       format: winston.format.combine(
         winston.format.colorize(),
-        winston.format.printf(({ level, message, timestamp, context, ...meta }) => {
-          const ctx = typeof context === 'string' ? context : 'App';
-          const metaStr = Object.keys(meta).length ? JSON.stringify(meta) : '';
-          return `${String(timestamp)} [${ctx}] ${String(level)}: ${String(message)} ${metaStr}`;
-        }),
+        winston.format.printf(
+          ({ level, message, timestamp, context, ...meta }) => {
+            const ctx = typeof context === 'string' ? context : 'App';
+            const metaStr = Object.keys(meta).length
+              ? JSON.stringify(meta)
+              : '';
+            return `${String(timestamp)} [${ctx}] ${String(level)}: ${String(message)} ${metaStr}`;
+          },
+        ),
       ),
     }),
     new DailyRotateFile({
@@ -31,7 +35,10 @@ export const loggerConfig: WinstonModuleOptions = {
       maxSize: '20m',
       maxFiles: '30d',
       level: 'info',
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
     }),
     new DailyRotateFile({
       dirname: logDir,
@@ -40,7 +47,10 @@ export const loggerConfig: WinstonModuleOptions = {
       maxSize: '20m',
       maxFiles: '90d',
       level: 'error',
-      format: winston.format.combine(winston.format.timestamp(), winston.format.json()),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
+      ),
     }),
   ],
 };

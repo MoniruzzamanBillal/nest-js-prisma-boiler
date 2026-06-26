@@ -8,21 +8,7 @@ import { Reflector } from '@nestjs/core';
 
 import { Request } from 'express';
 import { UserRole } from 'src/generated/prisma/enums';
-import { ROLES_KEY } from './decorators/roles.decorator';
-
-export interface UserPayload {
-  userId: string;
-  email: string;
-  role: string;
-  iat?: number;
-  exp?: number;
-}
-
-declare module 'express' {
-  interface Request {
-    user?: UserPayload;
-  }
-}
+import { ROLES_KEY } from '../decorators/roles.decorator';
 
 @Injectable()
 export class RolesGuard implements CanActivate {

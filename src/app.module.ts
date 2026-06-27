@@ -16,6 +16,7 @@ import { RolesGuard } from './common/guards/roles.guard';
 import { ProductModule } from './modules/product/product.module';
 import { ProjectModule } from './modules/project/project.module';
 import { UserModule } from './modules/user/user.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -29,6 +30,7 @@ import { UserModule } from './modules/user/user.module';
     ProjectModule,
     ProductModule,
     AiIntegrationModule,
+    PrismaModule,
   ],
   controllers: [AppController],
   providers: [
